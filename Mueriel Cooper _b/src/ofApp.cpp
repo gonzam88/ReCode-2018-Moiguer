@@ -13,13 +13,15 @@ void ofApp::setup(){
     
     currDirection = 0;
     
-    colores[0] = ofColor(233, 74, 77);
-    colores[1] = ofColor(17, 116, 175);
-    colores[2] = ofColor(60, 66, 176);
-    colores[3] = ofColor(255);
-    colores[4] = ofColor(0);
-    colores[5] = ofColor(240, 70, 89);
-    colores[6] = ofColor(7, 75, 21);
+    colores[0] = ofColor(253, 243, 235);
+    colores[1] = ofColor(107, 171, 199);
+    colores[2] = ofColor(239, 122, 52);
+    colores[3] = ofColor(16, 115, 173);
+    colores[4] = ofColor(233, 74, 77);
+    colores[5] = ofColor(46, 46, 38);
+    
+    currCol = colores[0];
+    prevCol = colores[1];
     
     GetRndmColor();
 }
@@ -46,12 +48,15 @@ void ofApp::update(){
     
     // Calculate X and Y offsets according to new direction
     // this map handles rotation offset between each second
-    // millisAnimStarted + 600 is bottom map. It means the value will be changed when 0.6 seconds have passed in current second
+    // animLength is bottom map. It means the value will be changed when 'animLength' milliseconds have passed in current second
+    float animLength = 400; // in miliseconds
+    
     // millisAnimStarted+1000 is top map. Its the time destintation (one second from now)
     // Last parameter set to true means the map function will clamp these parameters
-    angleY = ofMap(ofGetElapsedTimeMillis(), millisAnimStarted+100, millisAnimStarted+1000, 0, direction[currDirection].rotationY, true);
+    animLength = 1000 - animLength;
+    angleY = ofMap(ofGetElapsedTimeMillis(), millisAnimStarted + animLength, millisAnimStarted+1000, 0, direction[currDirection].rotationY, true);
     
-    angleX = ofMap(ofGetElapsedTimeMillis(), millisAnimStarted+100, millisAnimStarted+1000, 0, direction[currDirection].rotationX, true);
+    angleX = ofMap(ofGetElapsedTimeMillis(), millisAnimStarted + animLength, millisAnimStarted+1000, 0, direction[currDirection].rotationX, true);
     
 }
 
@@ -114,13 +119,14 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 ofColor ofApp::GetRndmColor(){
-    int rand;
+    int rand = 0;
     do{
         rand = ofRandom(0, (sizeof(colores)/sizeof(colores[0])) );
-    }while(colores[rand] == prevCol);
+    }while(colores[rand] == currCol);
     
     prevCol = currCol;
     currCol = colores[rand];
+    
     cout << "rand: " << rand << endl;
     return currCol;
 }

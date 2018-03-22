@@ -37,11 +37,13 @@ class ofApp : public ofBaseApp{
         int prevDirection;
         int currDirection;
     
+    
         Direccion direction[4];
         float angleX;
         float angleY;
-    ofColor colores[6];
-    ofColor currCol;
-    ofColor prevCol;
-    ofColor GetRndmColor();
+        ofColor colores[5];
+        ofColor currCol;
+        ofColor prevCol;
+        int lastRan;
+        ofColor GetRndmColor();
 };
