@@ -2,25 +2,29 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    font.load("Helvetica.ttc", 30, true, true, true);
-    
-    for(int i = 0; i < (sizeof(letras)/sizeof(letras[0])); i++){
-        letras[i].position.x = ofRandom(0, ofGetWidth());
-        letras[i].position.y = ofRandom(0, ofGetWidth());
-        letras[i].letra;
-    }
+    font.load("Helvetica", 100, true,true,true);
+    ofSetBackgroundAuto(false);
+    ofSetBackgroundColor(48, 39, 40);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    string st;
+    st = "T";
+    float ran = ofRandom(1);
+    if( ran > 0.6){
+      st = "E";
+    }else if (ran > 0.3){
+      st = "L";
+    }
+    
+    font.drawString(st, ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()));
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    for(int i = 0; i < (sizeof(letras)/sizeof(letras[0])); i++){
-        font.drawString("A", letras[i].position.x, letras[i].position.y);
-    }
+
 }
 
 //--------------------------------------------------------------

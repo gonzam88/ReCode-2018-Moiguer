@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Vehicle.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -21,7 +20,6 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		ofTrueTypeFont font;
-        Vehicle letras[10];
+		
+    ofTrueTypeFont font;
 };
-
