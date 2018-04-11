@@ -2,12 +2,6 @@
 
 #include "ofMain.h"
 
-
-class triangle{
-public:
-    vector<ofPoint> points;
-};
-
 class ofApp : public ofBaseApp{
 
 	public:
@@ -26,18 +20,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
-        
-    ofEasyCam cam;
-    
-    ofPoint frames[30][24];
-    
-    vector<int> indicesShuffle;
-    
-    vector<vector <triangle>> history;
-    int maxHistory = 30;
-    
-    vector<triangle> trianglesInThisFrame;
+		
+    ofVideoGrabber microscope;
+    vector<ofPoint> circleVectors;
 };
-
-
