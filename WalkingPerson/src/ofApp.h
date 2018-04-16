@@ -32,8 +32,11 @@ class ofApp : public ofBaseApp, public ofxMidiListener{
     ofxMidiMessage midiMessage;
     
     int spheSize = 0;
-    int matrixAmount = 10;
+    int matrixSize = 10;
     float camRotation;
     float camDist;
     float sphereThreshold;
+    
+    
+    
 };

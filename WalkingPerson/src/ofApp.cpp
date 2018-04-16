@@ -29,17 +29,26 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    cout << ofxMidiMessage::getStatusString(midiMessage.status) << endl;
+//
+//    Im taking the MIDI part off so that the sketch is automated
+//
+//    cout << ofxMidiMessage::getStatusString(midiMessage.status) << endl;
+//
+//    if( midiMessage.control == 1){
+//        spheSize = midiMessage.value;
+//    }else if(midiMessage.control == 2){
+//        matrixAmount = ofMap( midiMessage.value, 0 ,127, 0, 30);
+//    }else if(midiMessage.control == 5){
+//        camRotation = ofMap(midiMessage.value, 0, 127, 0, TWO_PI);
+//    }else if(midiMessage.control == 6){
+//        sphereThreshold = ofMap(midiMessage.value, 0, 127, 1, 200);
+//    }
     
-    if( midiMessage.control == 1){
-        spheSize = midiMessage.value;
-    }else if(midiMessage.control == 2){
-        matrixAmount = ofMap( midiMessage.value, 0 ,127, 0, 30);
-    }else if(midiMessage.control == 5){
-        camRotation = ofMap(midiMessage.value, 0, 127, 0, TWO_PI);
-    }else if(midiMessage.control == 6){
-        sphereThreshold = ofMap(midiMessage.value, 0, 127, 1, 200);
-    }
+    float t = ofGetElapsedTimef();
+    
+    matrixSize = ofMap( sin(t * 0.53), -1, 1, 5, 20);
+    camRotation = ofMap( sin(t * 0.32), -1, 1, 0, TWO_PI);
+    sphereThreshold = ofMap( sin(t * 0.47), -1, 1, 5, 200);
 }
 
 //--------------------------------------------------------------
@@ -94,17 +103,17 @@ void ofApp::draw(){
     
     ofSetSphereResolution(5);
     
-    for (int x = 0; x < matrixAmount; x++){
-        for (int y = 0; y < matrixAmount; y++){
-            for (int z = 0; z < matrixAmount; z++){
+    for (int x = 0; x < matrixSize; x++){
+        for (int y = 0; y < matrixSize; y++){
+            for (int z = 0; z < matrixSize; z++){
 //                ofVec3f pt(x,y,z);
 //                pt -= ofVec3f(5,5,5);
 //                pt *= 40;
 //                ofDrawCircle(pt, 0.5);
                 
-                float xpos = ofMap(x, 0, matrixAmount, -200, 200);
-                float ypos = ofMap(y, 0, matrixAmount, -200, 200);
-                float zpos = ofMap(z, 0, matrixAmount, -200, 200);
+                float xpos = ofMap(x, 0, matrixSize, -200, 200);
+                float ypos = ofMap(y, 0, matrixSize, -200, 200);
+                float zpos = ofMap(z, 0, matrixSize, -200, 200);
                 ofVec3f pt(xpos,ypos,zpos);
                 
                 float d = pt.distance(data3d[0]);
