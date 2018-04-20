@@ -1,13 +1,16 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
 	public:
-		void setup();
-		void update();
-		void draw();
+        void setup();
+        void setupGui();
+        void update();
+        void draw();
+        void drawGui(ofEventArgs & args);
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -20,7 +23,16 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    void CalculateCirclePoints();
 		
     ofVideoGrabber microscope;
     vector<ofPoint> circleVectors;
+    
+    // Parameters
+    ofParameterGroup parameters;
+    ofParameter<float> radius;
+    ofParameter<float> marginFromCenter;
+    ofxPanel gui;
+    
+    float prevRadius = 0;
 };

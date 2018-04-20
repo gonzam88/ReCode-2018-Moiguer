@@ -16,22 +16,43 @@ void ofApp::setup(){
     microscope.setDeviceID(myDeviceId);
     microscope.setup(1280, 720); // Default microscope resolution
     
+    CalculateCirclePoints();
+    
+    //ofSetFullscreen(true);
+}
+
+//-----------------------------------------------------
+void ofApp::CalculateCirclePoints(){
+    cout << "Recalculando Circulo" << endl;
+    circleVectors.clear();
     // Circle points
     int cres = 100; //circle resolution
     for (int i = 0; i < cres; i++) {
         float angle = ofMap(i, 0, cres, 0, 2 * PI);
-        float x = ofGetHeight()/2 * cos(angle);
-        float y = ofGetHeight()/2 * sin(angle) ;
+        float x = (ofGetHeight() * radius)/2 * cos(angle);
+        float y = (ofGetHeight()* radius)/2 * sin(angle) ;
         ofPoint temp(x,y);
         circleVectors.push_back(temp);
     }
-    
-    ofSetFullscreen(true);
+}
+
+//--------------------------------------------------------------
+void ofApp::setupGui(){
+    parameters.setName("parameters");
+    parameters.add(radius.set("Radius", 1, 0.01, 1));
+    parameters.add(marginFromCenter.set("Margin from Center",0, -300, 300));
+    gui.setup(parameters);
+    ofSetBackgroundColor(0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     microscope.update();
+    
+    if(prevRadius != radius){
+        CalculateCirclePoints();
+        prevRadius = radius;
+    }
 }
 
 //--------------------------------------------------------------
@@ -40,7 +61,16 @@ void ofApp::draw(){
     
     // draw the miscroscope webcam
     float heightRatio = ofGetHeight() / 720.0;
-    microscope.draw(0, 0, 1280 * heightRatio, ofGetHeight() );
+    
+    float height = ofGetHeight() * radius;
+    float width = 1280 * heightRatio * radius;
+    
+    float xpos = (ofGetWidth() - width) / 2;
+    float xypos = (ofGetHeight() - height) / 2;
+    
+    xypos -= marginFromCenter;
+    
+    microscope.draw(xpos, xypos, width, height );
     
     // Draw the circle cutout
     ofSetColor(0);
@@ -57,7 +87,7 @@ void ofApp::draw(){
     
         // Draw circle points
         float Xoffset = ofGetWidth() / 2;
-        float Yoffset = ofGetHeight() / 2;
+        float Yoffset = ofGetHeight() / 2 - marginFromCenter;
         for(int i = 0; i < circleVectors.size(); i++){
             ofVertex(circleVectors[i].x + Xoffset,
                      circleVectors[i].y + Yoffset);
@@ -69,8 +99,15 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::drawGui(ofEventArgs & args){
+    gui.draw();
+}
 
+
+//--------------------------------------------------------------
+void ofApp::keyPressed(int key){
+    if (key == 'f')
+        ofToggleFullscreen();  
 }
 
 //--------------------------------------------------------------
